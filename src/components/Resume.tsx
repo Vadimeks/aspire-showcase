@@ -1,8 +1,11 @@
+
 import React, { useEffect, useRef } from 'react';
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { User, GraduationCap, Briefcase, Code } from "lucide-react";
 
 interface Experience {
   title: string;
@@ -32,6 +35,7 @@ const Resume: React.FC = () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add('animate-fade-in');
+            entry.target.classList.remove('opacity-0');
           }
         });
       },
@@ -102,123 +106,138 @@ const Resume: React.FC = () => {
   ];
 
   return (
-    <section id="resume" className="section bg-secondary/30" ref={resumeRef}>
-      <div className="opacity-0" style={{ transitionDelay: '0.2s' }}>
-        <div className="tag mb-3">Professional Experience</div>
-        <h2 className="section-heading">Resume</h2>
-        <p className="section-subheading mb-10">
-          Optimized for ATS systems and highlighting key skills and experiences
-        </p>
+    <section id="resume" className="section bg-secondary/30 py-16" ref={resumeRef}>
+      <div className="container mx-auto opacity-0 transition-opacity duration-500" style={{ transitionDelay: '0.2s' }}>
+        <div className="text-center mb-8">
+          <div className="tag mb-3">Professional Experience</div>
+          <h2 className="section-heading">Resume</h2>
+          <p className="section-subheading mb-10">
+            Optimized for ATS systems and highlighting key skills and experiences
+          </p>
+        </div>
 
-        <Tabs defaultValue="experience" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mb-8">
-            <TabsTrigger value="experience">Experience</TabsTrigger>
-            <TabsTrigger value="education">Education</TabsTrigger>
-            <TabsTrigger value="skills">Skills</TabsTrigger>
-            <TabsTrigger value="languages">Languages</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="experience" className="space-y-6">
-            {experiences.map((exp, index) => (
-              <Card key={index} className="overflow-hidden">
-                <CardHeader className="bg-background p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b">
-                  <div>
-                    <h3 className="text-xl font-bold">{exp.title}</h3>
-                    <p className="text-muted-foreground">{exp.company}</p>
-                  </div>
-                  <Badge variant="outline" className="self-start sm:self-center whitespace-nowrap">
-                    {exp.period}
-                  </Badge>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <ul className="list-disc pl-5 space-y-2">
-                    {exp.description.map((item, i) => (
-                      <li key={i}>{item}</li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            ))}
-          </TabsContent>
-          
-          <TabsContent value="education" className="space-y-6">
-            {education.map((edu, index) => (
-              <Card key={index} className="overflow-hidden">
-                <CardHeader className="bg-background p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b">
-                  <div>
-                    <h3 className="text-xl font-bold">{edu.degree}</h3>
-                    <p className="text-muted-foreground">{edu.institution}</p>
-                  </div>
-                  <Badge variant="outline" className="self-start sm:self-center whitespace-nowrap">
-                    {edu.period}
-                  </Badge>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <p>{edu.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </TabsContent>
-          
-          <TabsContent value="skills">
-            <Card>
-              <CardContent className="p-6 grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div>
-                  <h3 className="text-lg font-semibold mb-4">Frontend Development</h3>
-                  <div className="space-y-4">
-                    {frontendSkills.map((skill, index) => (
-                      <div key={index} className="flex justify-between items-center">
-                        <span>{skill.name}</span>
-                        <Badge variant="secondary">{skill.level}</Badge>
+        <div className="flex flex-col md:flex-row gap-8 mb-12">
+          <div className="md:w-1/3 flex flex-col items-center">
+            <Avatar className="w-48 h-48 rounded-full mb-4">
+              <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="Profile picture" />
+              <AvatarFallback className="text-4xl">
+                <User size={64} />
+              </AvatarFallback>
+            </Avatar>
+            <h3 className="text-2xl font-bold">John Smith</h3>
+            <p className="text-muted-foreground mb-4">Full Stack Developer</p>
+            <div className="flex gap-2 mb-4">
+              <Badge variant="outline" className="py-1.5">React</Badge>
+              <Badge variant="outline" className="py-1.5">Node.js</Badge>
+              <Badge variant="outline" className="py-1.5">TypeScript</Badge>
+            </div>
+            <p className="text-center text-muted-foreground">
+              Passionate about creating elegant solutions to complex problems with modern web technologies.
+            </p>
+          </div>
+          <div className="md:w-2/3">
+            <Tabs defaultValue="experience" className="w-full">
+              <TabsList className="grid w-full grid-cols-3 mb-8">
+                <TabsTrigger value="experience" className="flex items-center gap-2">
+                  <Briefcase className="w-4 h-4" />
+                  <span>Experience</span>
+                </TabsTrigger>
+                <TabsTrigger value="education" className="flex items-center gap-2">
+                  <GraduationCap className="w-4 h-4" />
+                  <span>Education</span>
+                </TabsTrigger>
+                <TabsTrigger value="skills" className="flex items-center gap-2">
+                  <Code className="w-4 h-4" />
+                  <span>Skills</span>
+                </TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="experience" className="space-y-6">
+                {experiences.map((exp, index) => (
+                  <Card key={index} className="overflow-hidden">
+                    <CardHeader className="bg-background p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b">
+                      <div>
+                        <h3 className="text-xl font-bold">{exp.title}</h3>
+                        <p className="text-muted-foreground">{exp.company}</p>
                       </div>
-                    ))}
-                  </div>
-                </div>
-                
-                <div>
-                  <h3 className="text-lg font-semibold mb-4">Backend Development</h3>
-                  <div className="space-y-4">
-                    {backendSkills.map((skill, index) => (
-                      <div key={index} className="flex justify-between items-center">
-                        <span>{skill.name}</span>
-                        <Badge variant="secondary">{skill.level}</Badge>
+                      <Badge variant="outline" className="self-start sm:self-center whitespace-nowrap">
+                        {exp.period}
+                      </Badge>
+                    </CardHeader>
+                    <CardContent className="p-6">
+                      <ul className="list-disc pl-5 space-y-2">
+                        {exp.description.map((item, i) => (
+                          <li key={i}>{item}</li>
+                        ))}
+                      </ul>
+                    </CardContent>
+                  </Card>
+                ))}
+              </TabsContent>
+              
+              <TabsContent value="education" className="space-y-6">
+                {education.map((edu, index) => (
+                  <Card key={index} className="overflow-hidden">
+                    <CardHeader className="bg-background p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b">
+                      <div>
+                        <h3 className="text-xl font-bold">{edu.degree}</h3>
+                        <p className="text-muted-foreground">{edu.institution}</p>
                       </div>
-                    ))}
-                  </div>
-                </div>
-                
-                <div>
-                  <h3 className="text-lg font-semibold mb-4">Mobile Development</h3>
-                  <div className="space-y-4">
-                    {mobileSkills.map((skill, index) => (
-                      <div key={index} className="flex justify-between items-center">
-                        <span>{skill.name}</span>
-                        <Badge variant="secondary">{skill.level}</Badge>
+                      <Badge variant="outline" className="self-start sm:self-center whitespace-nowrap">
+                        {edu.period}
+                      </Badge>
+                    </CardHeader>
+                    <CardContent className="p-6">
+                      <p>{edu.description}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </TabsContent>
+              
+              <TabsContent value="skills">
+                <Card>
+                  <CardContent className="p-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div>
+                      <h3 className="text-lg font-semibold mb-4">Frontend Development</h3>
+                      <div className="space-y-4">
+                        {frontendSkills.map((skill, index) => (
+                          <div key={index} className="flex justify-between items-center">
+                            <span>{skill.name}</span>
+                            <Badge variant="secondary">{skill.level}</Badge>
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          
-          <TabsContent value="languages">
-            <Card>
-              <CardContent className="p-6">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <h3 className="text-lg font-semibold mb-4">English</h3>
-                    <Badge>Professional working proficiency</Badge>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold mb-4">Polish</h3>
-                    <Badge>Elementary proficiency</Badge>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+                    </div>
+                    
+                    <div>
+                      <h3 className="text-lg font-semibold mb-4">Backend Development</h3>
+                      <div className="space-y-4">
+                        {backendSkills.map((skill, index) => (
+                          <div key={index} className="flex justify-between items-center">
+                            <span>{skill.name}</span>
+                            <Badge variant="secondary">{skill.level}</Badge>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <h3 className="text-lg font-semibold mb-4">Mobile Development</h3>
+                      <div className="space-y-4">
+                        {mobileSkills.map((skill, index) => (
+                          <div key={index} className="flex justify-between items-center">
+                            <span>{skill.name}</span>
+                            <Badge variant="secondary">{skill.level}</Badge>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
+          </div>
+        </div>
 
         <div className="mt-8 flex justify-center">
           <Button variant="outline" className="shadow-sm">
