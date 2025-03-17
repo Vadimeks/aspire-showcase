@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { User, GraduationCap, Briefcase, Code } from "lucide-react";
+import { User, GraduationCap, Briefcase, Code, Download } from "lucide-react";
 
 interface Experience {
   title: string;
@@ -30,6 +30,12 @@ const Resume: React.FC = () => {
   const resumeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Apply the animation class right away to ensure content is visible
+    if (resumeRef.current) {
+      resumeRef.current.classList.add('animate-fade-in');
+      resumeRef.current.classList.remove('opacity-0');
+    }
+    
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -107,11 +113,13 @@ const Resume: React.FC = () => {
 
   return (
     <section id="resume" className="section bg-secondary/30 py-16" ref={resumeRef}>
-      <div className="container mx-auto opacity-0 transition-opacity duration-500" style={{ transitionDelay: '0.2s' }}>
+      <div className="container mx-auto transition-opacity duration-500" style={{ transitionDelay: '0.2s' }}>
         <div className="text-center mb-8">
-          <div className="tag mb-3">Professional Experience</div>
-          <h2 className="section-heading">Resume</h2>
-          <p className="section-subheading mb-10">
+          <div className="inline-block px-3 py-1 text-sm font-medium bg-primary/10 text-primary rounded-full mb-3">
+            Professional Experience
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Resume</h2>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
             Optimized for ATS systems and highlighting key skills and experiences
           </p>
         </div>
@@ -126,7 +134,7 @@ const Resume: React.FC = () => {
             </Avatar>
             <h3 className="text-2xl font-bold">John Smith</h3>
             <p className="text-muted-foreground mb-4">Full Stack Developer</p>
-            <div className="flex gap-2 mb-4">
+            <div className="flex flex-wrap gap-2 mb-4 justify-center">
               <Badge variant="outline" className="py-1.5">React</Badge>
               <Badge variant="outline" className="py-1.5">Node.js</Badge>
               <Badge variant="outline" className="py-1.5">TypeScript</Badge>
@@ -240,7 +248,8 @@ const Resume: React.FC = () => {
         </div>
 
         <div className="mt-8 flex justify-center">
-          <Button variant="outline" className="shadow-sm">
+          <Button variant="outline" className="shadow-sm flex items-center gap-2">
+            <Download className="h-4 w-4" />
             Download Full Resume
           </Button>
         </div>
